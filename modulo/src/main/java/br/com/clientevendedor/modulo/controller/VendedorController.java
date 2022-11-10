@@ -12,6 +12,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import br.com.clientevendedor.modulo.dto.ClienteDto;
 import br.com.clientevendedor.modulo.dto.VendedorDto;
 import br.com.clientevendedor.modulo.service.VendedorService;
 
@@ -51,6 +53,12 @@ public class VendedorController {
 	@PutMapping("/{id}")
 	public ResponseEntity<VendedorDto> atualizar(@PathVariable @NotNull Long id, @RequestBody @Valid VendedorDto dto) {
 		VendedorDto vendedor = service.atualizarVendedor(id, dto);
+		return ResponseEntity.ok(vendedor);
+	}
+	
+	@PatchMapping("{id}")
+	public ResponseEntity<VendedorDto> atualizarCliente(@PathVariable Long id, @RequestBody ClienteDto dto){
+		VendedorDto vendedor = service.atualizarClienteVendedor(id, dto);
 		return ResponseEntity.ok(vendedor);
 	}
 

@@ -9,7 +9,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.com.clientevendedor.modulo.dto.ClienteDto;
+import br.com.clientevendedor.modulo.dto.VendedorDto;
 import br.com.clientevendedor.modulo.model.Cliente;
+import br.com.clientevendedor.modulo.model.Vendedor;
 import br.com.clientevendedor.modulo.repository.ClienteRepository;
 
 @Service
@@ -39,6 +41,14 @@ public class ClienteService {
 	public ClienteDto atualizarCliente(Long id, ClienteDto dto) {
 		Cliente cliente = modelMapper.map(dto, Cliente.class);
 		cliente.setId(id);
+		cliente = repository.save(cliente);
+		return modelMapper.map(cliente, ClienteDto.class);
+	}
+	
+	public ClienteDto atualizarVendedorCliente(Long id, VendedorDto dto) {
+		Cliente cliente = repository.findById(id).orElseThrow(() -> new EntityNotFoundException());
+		Vendedor vendedor = modelMapper.map(dto, Vendedor.class);
+		cliente.setVendedor(vendedor);
 		cliente = repository.save(cliente);
 		return modelMapper.map(cliente, ClienteDto.class);
 	}
